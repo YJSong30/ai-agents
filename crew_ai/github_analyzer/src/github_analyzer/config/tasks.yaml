@@ -1,7 +1,44 @@
 clone_repo_task:
   description: >
-    Clone the github repository from the provided url: {github_url}.
-    The target directory for cloning should be {target_dir}.
+    Use your Git cloning tool to clone the repository from the following URL: **{github_url}**. 
+    Place the cloned files into the local directory named **{target_dir}**. 
+    Before cloning, ensure that directory is empty
   expected_output: >
-    A confirmation message stating that the repository has been successfully cloned into the './work_area' directory
+    A single confirmation string: "Successfully cloned repository [github_url] to [target_dir]". 
+    The directory '{target_dir}' must now contain the repository's source code.
   agent: repo_cloner
+
+tech_stack_task:
+  description: >
+    Use your file system tools to examine the contents of the directory specified in the context.
+    Based on the files you find (e.g., package.json, requirements.txt, Dockerfile, etc.),
+    compile a detailed report on the project's complete technology stack.
+    Your final report should be well-structured and formatted as markdown.
+  expected_output: >
+    A comprehensive markdown report detailing the technology stack. The report must include sections for:
+    - Languages
+    - Frontend Frameworks/Libraries
+    - Backend Frameworks/Libraries
+    - Databases
+    - Infrastructure/DevOps (e.g., Docker, CI/CD)
+  context:
+    - clone_repo_task
+  agent: tech_stack_analyst
+  output_file: output/tech_stack_report.md
+
+security_analysis_task:
+  description: >
+    Using the codebase in {target_dir} and the list of technologies provided in the context, perform a comprehensive security audit.
+    Use your tools to read the code and search for vulnerabilities.
+    Identify potential security risks, including hardcoded secrets, outdated dependencies, and common code flaws.
+    Compile your findings into a detailed security report formatted in markdown.
+  expected_output: >
+    A detailed markdown report with three sections:
+    1.  **Critical Vulnerabilities:** High-risk issues that need immediate attention.
+    2.  **Warnings:** Medium-risk issues and bad practices.
+    3.  **Mitigation Plan:** Actionable recommendations for fixing each identified issue.
+  context:
+    - clone_repo_task
+    - tech_stack_task
+  agent: security_analyst
+  output_file: output/security_report.md
