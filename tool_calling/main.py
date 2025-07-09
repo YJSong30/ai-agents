@@ -63,7 +63,7 @@ tools = [{"type": "function", "function": record_user_data_json}]
 
 def handle_tool_call(tool_call):
     tool_name = tool_call.function.name
-    arguments = json.loads(tool_call.function.arguments) # converts '{"email": "user@example.com", "name": "John"}' -> # {'email': 'user@example.com', 'name': 'John'}
+    arguments = json.loads(tool_call.function.arguments) # converts json object into python dict: '{"email": "user@example.com", "name": "John"}' -> # {'email': 'user@example.com', 'name': 'John'}
     print(f"Tool call: {tool_name} with arguments: {arguments}")
 
     if tool_name == "record_user_data":

@@ -1,0 +1,7 @@
+clone_repo_task:
+  description: >
+    Clone the github repository from the provided url: {github_url}.
+    The target directory for cloning should be {target_dir}.
+  expected_output: >
+    A confirmation message stating that the repository has been successfully cloned into the './work_area' directory
+  agent: repo_cloner
